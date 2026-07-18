@@ -90,7 +90,7 @@ export default function RoundVotingPage() {
         id: roundRow.id,
         status: roundRow.status,
         ends_at: roundRow.ends_at,
-        decided_meal_title: roundRow.meals?.title ?? null,
+        decided_meal_title: Array.isArray(roundRow.meals) ? roundRow.meals[0]?.title ?? null : (roundRow.meals as any)?.title ?? null,
         decision_reason: roundRow.decision_reason
       });
 

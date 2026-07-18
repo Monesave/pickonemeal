@@ -131,7 +131,7 @@ export default function TableDetailPage() {
           id: r.id,
           round_number: r.round_number,
           status: r.status,
-          decided_meal_title: r.meals?.title ?? null,
+          decided_meal_title: Array.isArray(r.meals) ? r.meals[0]?.title ?? null : (r.meals as any)?.title ?? null,
           decision_reason: r.decision_reason
         }))
       );

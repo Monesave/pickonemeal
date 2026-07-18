@@ -50,7 +50,9 @@ export default function HomePage() {
         return {
           slot: s.slot,
           status: row.status,
-          mealTitle: row.meals?.title ?? null
+          mealTitle: Array.isArray(row.meals) 
+            ? row.meals[0]?.title ?? null 
+            : (row.meals as any)?.title ?? null
         };
       });
 
