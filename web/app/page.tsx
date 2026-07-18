@@ -25,7 +25,7 @@ export default function LandingPage() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   useEffect(() => {
-    if (session) router.replace("/app/home");
+    if (session) router.replace("/home");
   }, [session, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,7 +34,7 @@ export default function LandingPage() {
     try {
       if (mode === "signin") await signInWithEmail(email, password);
       else await signUpWithEmail(email, password);
-      router.replace("/app/home");
+      router.replace("/home");
     } catch (err: any) {
       setError(err.message ?? "Something went wrong");
     }
@@ -80,7 +80,7 @@ export default function LandingPage() {
                 </>
               )}
               {session && (
-                <Link href="/app/home" className="btn-primary py-2 px-4 text-sm flex items-center gap-1.5">
+                <Link href="/home" className="btn-primary py-2 px-4 text-sm flex items-center gap-1.5">
                   Go to App <ArrowRight size={14} />
                 </Link>
               )}

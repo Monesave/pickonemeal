@@ -224,7 +224,7 @@ export default function TablesPage() {
                   </div>
                 </div>
                 <Link
-                  href={`/app/tables/${table.id}`}
+                  href={`/tables/${table.id}`}
                   className="rounded border border-neutral-700 px-2 py-1 text-xs text-neutral-200 hover:border-neutral-400"
                 >
                   Open

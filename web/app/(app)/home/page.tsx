@@ -105,13 +105,13 @@ export default function HomePage() {
         <h2 className="text-sm font-semibold text-neutral-200">Quick actions</h2>
         <div className="flex flex-wrap gap-2 text-sm">
           <a
-            href="/app/swipe"
+            href="/swipe"
             className="rounded-full border border-neutral-700 px-3 py-1 hover:border-neutral-400"
           >
             Plan my meals
           </a>
           <a
-            href="/app/tables"
+            href="/tables"
             className="rounded-full border border-neutral-700 px-3 py-1 hover:border-neutral-400"
           >
             Dining Tables

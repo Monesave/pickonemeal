@@ -13,7 +13,7 @@ export default function OnboardingPage() {
   const [error, setError] = useState<string | null>(null);
 
   if (session) {
-    router.replace("/app/home");
+    router.replace("/home");
   }
 
   const handleSubmit = async (e: FormEvent) => {
@@ -25,7 +25,7 @@ export default function OnboardingPage() {
       } else {
         await signUpWithEmail(email, password);
       }
-      router.replace("/app/home");
+      router.replace("/home");
     } catch (err: any) {
       setError(err.message ?? "Something went wrong");
     }

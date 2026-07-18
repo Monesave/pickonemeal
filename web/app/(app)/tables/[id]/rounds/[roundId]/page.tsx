@@ -300,7 +300,7 @@ export default function RoundVotingPage() {
   };
 
   if (!session) {
-    router.replace("/app/onboarding");
+    router.replace("/onboarding");
     return null;
   }
 
@@ -320,7 +320,7 @@ export default function RoundVotingPage() {
     <div className="space-y-6">
       <header className="space-y-1">
         <Link
-          href={`/app/tables/${table.id}`}
+          href={`/tables/${table.id}`}
           className="text-xs text-neutral-400 hover:text-neutral-200"
         >
           ← Back to table

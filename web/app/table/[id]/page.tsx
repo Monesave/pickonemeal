@@ -23,7 +23,7 @@ export default function JoinTablePage() {
     }
     if (!session) {
       // Require user to log in; they can re-open the link after.
-      router.replace("/app/onboarding");
+      router.replace("/onboarding");
       return;
     }
 
@@ -62,7 +62,7 @@ export default function JoinTablePage() {
       }
 
       setStatus("done");
-      router.replace(`/app/tables/${tableId}`);
+      router.replace(`/tables/${tableId}`);
     };
 
     void join();
