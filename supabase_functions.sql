@@ -273,5 +273,49 @@ $$;
 
 grant execute on function public.get_gamification_summary(uuid, integer) to authenticated;
 
+------------------------------------------------------------
+-- 6) Create a meal function
+------------------------------------------------------------
+
+create or replace function public.create_meal(
+  p_title text,
+  p_description text default null,
+  p_prep_time_minutes integer default null,
+  p_image_url text default null
+)
+returns public.meals
+language plpgsql
+security definer
+as $$
+declare
+  v_caller_id uuid := auth.uid();
+  v_meal public.meals;
+begin
+  if v_caller_id is null then
+    raise exception 'Not authenticated';
+  end if;
+
+  insert into public.meals (
+    title,
+    description,
+    prep_time_minutes,
+    image_url,
+    is_active
+  )
+  values (
+    p_title,
+    p_description,
+    p_prep_time_minutes,
+    p_image_url,
+    true
+  )
+  returning * into v_meal;
+
+  return v_meal;
+end;
+$$;
+
+grant execute on function public.create_meal(text, text, integer, text) to authenticated;
+
 
 

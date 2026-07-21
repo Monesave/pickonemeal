@@ -198,6 +198,16 @@ alter table public.user_daily_plans enable row level security;
 alter table public.user_swipe_counters enable row level security;
 alter table public.user_preferences enable row level security;
 
+alter table public.meals enable row level security;
+
+create policy "Meals are viewable by everyone"
+  on public.meals for select
+  using (true);
+
+create policy "Authenticated users can insert meals"
+  on public.meals for insert
+  with check (auth.role() = 'authenticated');
+
 -- Example policy: user can view/update their own profile
 create policy "Profiles are viewable by owner"
   on public.profiles

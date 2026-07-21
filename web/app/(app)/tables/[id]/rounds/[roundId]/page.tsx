@@ -16,7 +16,7 @@ type Meal = {
 type RoundInfo = {
   id: string;
   status: "active" | "completed" | "timeout";
-  ends_at: string;
+  ends_at?: string | null;
   decided_meal_title: string | null;
   decision_reason: string | null;
 };
@@ -70,7 +70,6 @@ export default function RoundVotingPage() {
               `
               id,
               status,
-              ends_at,
               decision_reason,
               meals:decided_meal_id(title)
             `
@@ -89,7 +88,7 @@ export default function RoundVotingPage() {
       setRound({
         id: roundRow.id,
         status: roundRow.status,
-        ends_at: roundRow.ends_at,
+        ends_at: (roundRow as any).ends_at ?? null,
         decided_meal_title: Array.isArray(roundRow.meals) ? roundRow.meals[0]?.title ?? null : (roundRow.meals as any)?.title ?? null,
         decision_reason: roundRow.decision_reason
       });

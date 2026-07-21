@@ -161,18 +161,18 @@ export default function TablesPage() {
           <select
             value={mealSlot}
             onChange={(e) => setMealSlot(e.target.value as MealSlot)}
-            className="rounded border border-neutral-700 bg-neutral-950 px-3 py-2 text-neutral-50 outline-none focus:border-neutral-300"
+            className="rounded border border-neutral-700 bg-neutral-950 px-3 py-2 text-neutral-50 outline-none focus:border-neutral-300 capitalize"
           >
             {MEAL_SLOTS.map((slot) => (
               <option key={slot} value={slot}>
-                {slot}
+                {slot.charAt(0).toUpperCase() + slot.slice(1)}
               </option>
             ))}
           </select>
           <button
             type="submit"
             disabled={creating}
-            className="rounded bg-neutral-100 px-3 py-2 text-xs font-medium text-neutral-900 hover:bg-white disabled:opacity-60"
+            className="rounded bg-emerald-600 px-4 py-2 text-xs font-medium text-white hover:bg-emerald-500 disabled:opacity-60"
           >
             {creating ? "Creating..." : "Create table"}
           </button>
@@ -220,7 +220,7 @@ export default function TablesPage() {
                     )}
                   </div>
                   <div className="text-xs text-neutral-400">
-                    {table.date} • {table.meal_slot} • {table.status}
+                    {table.date} • <span className="capitalize">{table.meal_slot}</span> • {table.status}
                   </div>
                 </div>
                 <Link
