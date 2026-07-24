@@ -304,37 +304,43 @@ export default function RoundVotingPage() {
   }
 
   if (loading) {
-    return <p className="text-neutral-400">Loading round…</p>;
+    return (
+      <div className="space-y-4">
+        <div className="h-10 w-48 rounded-xl bg-white/40 backdrop-blur-sm animate-pulse" />
+        <div className="max-w-md h-64 rounded-2xl bg-white/40 backdrop-blur-sm animate-pulse shadow-sm" />
+      </div>
+    );
   }
 
   if (!round || !table) {
     return (
-      <p className="text-sm text-red-400" role="alert">
+      <p className="text-sm text-red-500 font-medium" role="alert">
         {error ?? "Round not found."}
       </p>
     );
   }
-
   return (
-    <div className="space-y-6">
-      <header className="space-y-1">
+    <div className="space-y-7">
+      <header className="space-y-1.5">
         <Link
           href={`/tables/${table.id}`}
-          className="text-xs text-neutral-400 hover:text-neutral-200"
+          className="text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors"
         >
           ← Back to table
         </Link>
-        <h1 className="text-2xl font-semibold">{table.name}</h1>
-        <p className="text-sm text-neutral-300">
-          Round status: {round.status}
+        <h1 className="text-3xl font-bold text-slate-800">{table.name}</h1>
+        <p className="text-sm text-slate-400 font-medium">
+          Round status: <span className="capitalize font-semibold text-slate-600">{round.status}</span>
           {round.decided_meal_title && (
-            <> • Winner: {round.decided_meal_title}</>
+            <> • 🏆 Winner: <span className="font-semibold text-slate-700">{round.decided_meal_title}</span></>
           )}
         </p>
       </header>
 
       {consensusMessage && (
-        <p className="text-sm text-emerald-300">{consensusMessage}</p>
+        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700 font-semibold">
+          {consensusMessage}
+        </div>
       )}
 
       {showConfetti && (
@@ -355,38 +361,44 @@ export default function RoundVotingPage() {
       )}
 
       {error && (
-        <p className="text-xs text-red-400" role="alert">
+        <p className="text-xs text-red-500 font-medium" role="alert">
           {error}
         </p>
       )}
 
       {round.status !== "active" ? (
-        <p className="text-sm text-neutral-400">
-          This round is no longer active.
-        </p>
+        <div className="rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 p-8 text-center shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
+          <div className="mx-auto mb-2 h-14 w-14 rounded-full bg-gradient-to-br from-slate-100 to-purple-50 flex items-center justify-center text-2xl">🏁</div>
+          <p className="text-sm text-slate-400 font-medium">
+            This round is no longer active.
+          </p>
+        </div>
       ) : !currentMeal ? (
-        <p className="text-sm text-neutral-400">
-          You&apos;ve voted on all meals in this round.
-        </p>
+        <div className="rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 p-8 text-center shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
+          <div className="mx-auto mb-2 h-14 w-14 rounded-full bg-gradient-to-br from-slate-100 to-purple-50 flex items-center justify-center text-2xl">✅</div>
+          <p className="text-sm text-slate-400 font-medium">
+            You&apos;ve voted on all meals in this round.
+          </p>
+        </div>
       ) : (
-        <div className="max-w-md rounded-xl border border-neutral-800 bg-neutral-900/60 p-4">
-          <h2 className="text-lg font-semibold">{currentMeal.title}</h2>
+        <div className="max-w-md rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 p-5 shadow-[0_4px_24px_rgba(0,0,0,0.06)] space-y-3">
+          <h2 className="text-lg font-bold text-slate-800">{currentMeal.title}</h2>
           {currentMeal.description && (
-            <p className="mt-1 text-sm text-neutral-300">
+            <p className="text-sm text-slate-400 leading-relaxed">
               {currentMeal.description}
             </p>
           )}
           {currentMeal.prep_time_minutes != null && (
-            <p className="mt-1 text-xs text-neutral-400">
-              Prep time: {currentMeal.prep_time_minutes} min
+            <p className="inline-flex items-center gap-1 text-xs text-slate-400 bg-slate-50 rounded-full px-2.5 py-0.5 border border-slate-100 font-medium">
+              ⏱️ Prep time: {currentMeal.prep_time_minutes} min
             </p>
           )}
 
-          <div className="mt-4 flex justify-between gap-2">
+          <div className="pt-2 flex justify-between gap-2.5">
             <button
               type="button"
               disabled={saving}
-              className="flex-1 rounded-full border border-red-500/70 px-3 py-2 text-sm text-red-200 hover:border-red-400 disabled:opacity-60"
+              className="flex-1 rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-sm font-semibold text-red-500 transition-all duration-200 hover:bg-red-100 hover:border-red-300 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97]"
               onClick={() => void handleVote("dislike")}
             >
               Dislike
@@ -394,7 +406,7 @@ export default function RoundVotingPage() {
             <button
               type="button"
               disabled={saving}
-              className="flex-1 rounded-full border border-neutral-600 px-3 py-2 text-sm text-neutral-200 hover:border-neutral-400 disabled:opacity-60"
+              className="flex-1 rounded-xl border border-slate-200 bg-white/80 px-3 py-2.5 text-sm font-semibold text-slate-500 transition-all duration-200 hover:bg-white hover:border-slate-300 hover:text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97]"
               onClick={() => void handleVote("skip")}
             >
               Skip
@@ -402,16 +414,16 @@ export default function RoundVotingPage() {
             <button
               type="button"
               disabled={saving}
-              className="flex-1 rounded-full border border-emerald-400 bg-emerald-400/10 px-3 py-2 text-sm text-emerald-200 hover:border-emerald-300 disabled:opacity-60"
+              className="flex-1 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 px-3 py-2.5 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:shadow-md hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97]"
               onClick={() => void handleVote("like")}
             >
               Like
             </button>
           </div>
 
-          <p className="mt-3 text-xs text-neutral-400">
+          <p className="text-xs text-slate-400 font-medium">
             Card {currentIndex + 1} of {meals.length}
-            {allVotedByUser && " • You’ve voted on all meals in this round."}
+            {allVotedByUser && " • You've voted on all meals in this round."}
           </p>
         </div>
       )}

@@ -180,27 +180,27 @@ function SwipeContent() {
   };
 
   return (
-    <div className="space-y-5">
-      <header className="space-y-1">
+    <div className="space-y-6">
+      <header className="space-y-1.5">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold">Swipe & Plan Meals</h1>
+          <h1 className="text-3xl font-bold text-slate-800">Swipe & Plan Meals</h1>
           <Link
             href="/home"
-            className="text-xs text-neutral-400 hover:text-neutral-200"
+            className="text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors"
           >
             ← Back to Home
           </Link>
         </div>
-        <p className="text-sm text-neutral-300">
+        <p className="text-sm text-slate-400 font-medium">
           Select a meal slot below and swipe meals to set your daily plan. You can pick up to{" "}
-          <span className="font-semibold text-emerald-400">{DAILY_LIMIT}</span> meals per day.
+          <span className="font-bold text-rose-500">{DAILY_LIMIT}</span> meals per day.
         </p>
       </header>
 
       {/* Slot Selector Tabs */}
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="font-medium text-neutral-400">Target slot:</span>
+          <span className="font-semibold text-slate-500">Target slot:</span>
           {SLOTS.map((slot) => {
             const decidedName = decidedMeals[slot];
             const isSelected = selectedSlot === slot;
@@ -208,10 +208,10 @@ function SwipeContent() {
               <button
                 key={slot}
                 type="button"
-                className={`rounded-full border px-3.5 py-1.5 capitalize transition-all ${
+                className={`rounded-full border px-3.5 py-1.5 capitalize transition-all duration-200 ${
                   isSelected
-                    ? "border-emerald-400 bg-emerald-500/20 font-semibold text-emerald-200"
-                    : "border-neutral-700 bg-neutral-900/60 text-neutral-300 hover:border-neutral-500"
+                    ? "border-pink-300 bg-gradient-to-r from-pink-50 to-rose-50 font-bold text-rose-600 shadow-sm"
+                    : "border-slate-200 bg-white/60 backdrop-blur-sm text-slate-500 hover:border-slate-300 hover:text-slate-700"
                 }`}
                 onClick={() => {
                   setSelectedSlot(slot);
@@ -223,11 +223,11 @@ function SwipeContent() {
             );
           })}
 
-          <span className="ml-auto text-xs text-neutral-400">
+          <span className="ml-auto text-xs text-slate-400 font-medium">
             Remaining today:{" "}
             <span
               className={
-                remaining <= 0 ? "font-semibold text-red-400" : "font-semibold text-emerald-400"
+                remaining <= 0 ? "font-bold text-red-500" : "font-bold text-emerald-600"
               }
             >
               {Math.max(remaining, 0)}
@@ -236,49 +236,50 @@ function SwipeContent() {
         </div>
 
         {decidedMeals[selectedSlot] && (
-          <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-300 flex items-center justify-between">
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-xs text-emerald-700 font-medium flex items-center justify-between">
             <span>
               Current pick for <strong className="uppercase">{selectedSlot}</strong>: <strong>{decidedMeals[selectedSlot]}</strong>
             </span>
-            <Link href="/home" className="underline hover:text-emerald-200">View on Home</Link>
+            <Link href="/home" className="underline hover:text-emerald-900 font-semibold">View on Home</Link>
           </div>
         )}
 
         {successMsg && (
-          <div className="rounded-lg border border-emerald-500/50 bg-emerald-500/20 px-3 py-2 text-xs font-medium text-emerald-200">
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-xs font-semibold text-emerald-700">
             🎉 {successMsg}
           </div>
         )}
       </div>
 
       {error && (
-        <p className="text-xs text-red-400" role="alert">
+        <p className="text-xs text-red-500 font-medium" role="alert">
           {error}
         </p>
       )}
 
       {loading ? (
-        <p className="text-neutral-400">Loading meals…</p>
+        <div className="max-w-md h-72 rounded-2xl bg-white/40 backdrop-blur-sm animate-pulse shadow-sm" />
       ) : !currentMeal ? (
-        <div className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-6 text-center space-y-3">
-          <p className="text-neutral-300 text-sm">
-            No more meals to swipe right now for <strong className="uppercase">{selectedSlot}</strong>.
+        <div className="rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 p-8 text-center space-y-4 shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
+          <div className="mx-auto h-14 w-14 rounded-full bg-gradient-to-br from-slate-100 to-purple-50 flex items-center justify-center text-2xl">🍽️</div>
+          <p className="text-slate-500 text-sm font-medium">
+            No more meals to swipe right now for <strong className="uppercase text-slate-700">{selectedSlot}</strong>.
           </p>
           <Link
             href="/home"
-            className="inline-block rounded-lg bg-emerald-600 px-4 py-2 text-xs font-medium text-white hover:bg-emerald-500"
+            className="inline-block rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:shadow-md hover:brightness-110 transition-all duration-200"
           >
             Go to Home to view your plan
           </Link>
         </div>
       ) : (
-        <div className="max-w-md rounded-xl border border-neutral-800 bg-neutral-900/70 p-5 shadow-lg space-y-3">
-          <div className="text-xs text-neutral-400 font-medium">
-            Swiping for: <span className="uppercase text-emerald-400 font-bold">{selectedSlot}</span>
+        <div className="max-w-md rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 p-5 shadow-[0_4px_24px_rgba(0,0,0,0.06)] space-y-3.5">
+          <div className="text-xs text-slate-400 font-semibold">
+            Swiping for: <span className="uppercase text-rose-500 font-bold">{selectedSlot}</span>
           </div>
 
           {currentMeal.image_url && (
-            <div className="overflow-hidden rounded-lg bg-neutral-800">
+            <div className="overflow-hidden rounded-xl bg-gradient-to-br from-slate-100 to-purple-50 shadow-inner">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={currentMeal.image_url}
@@ -287,29 +288,29 @@ function SwipeContent() {
               />
             </div>
           )}
-          <h2 className="text-lg font-semibold text-neutral-100">{currentMeal.title}</h2>
+          <h2 className="text-lg font-bold text-slate-800">{currentMeal.title}</h2>
           {currentMeal.description && (
-            <p className="text-sm text-neutral-300">
+            <p className="text-sm text-slate-400 leading-relaxed">
               {currentMeal.description}
             </p>
           )}
           {currentMeal.prep_time_minutes != null && (
-            <p className="text-xs text-neutral-400">
-              Prep time: {currentMeal.prep_time_minutes} min
+            <p className="inline-flex items-center gap-1 text-xs text-slate-400 bg-slate-50 rounded-full px-2.5 py-0.5 border border-slate-100 font-medium">
+              ⏱️ Prep time: {currentMeal.prep_time_minutes} min
             </p>
           )}
 
-          <div className="pt-2 flex justify-between gap-2">
+          <div className="pt-2 flex justify-between gap-2.5">
             <button
               type="button"
-              className="flex-1 rounded-full border border-red-500/70 px-3 py-2 text-sm text-red-200 hover:border-red-400 hover:bg-red-500/10"
+              className="flex-1 rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-sm font-semibold text-red-500 transition-all duration-200 hover:bg-red-100 hover:border-red-300 active:scale-[0.97]"
               onClick={() => void recordDecision("dislike")}
             >
               Dislike
             </button>
             <button
               type="button"
-              className="flex-1 rounded-full border border-neutral-600 px-3 py-2 text-sm text-neutral-200 hover:border-neutral-400 hover:bg-neutral-800"
+              className="flex-1 rounded-xl border border-slate-200 bg-white/80 px-3 py-2.5 text-sm font-semibold text-slate-500 transition-all duration-200 hover:bg-white hover:border-slate-300 hover:text-slate-700 active:scale-[0.97]"
               onClick={() => void recordDecision("skip")}
             >
               Skip
@@ -317,7 +318,7 @@ function SwipeContent() {
             <button
               type="button"
               disabled={!canSwipe}
-              className="flex-1 rounded-full border border-emerald-400 bg-emerald-400/20 px-3 py-2 text-sm font-semibold text-emerald-200 hover:border-emerald-300 hover:bg-emerald-400/30 disabled:opacity-50"
+              className="flex-1 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 px-3 py-2.5 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:shadow-md hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97]"
               onClick={() => void recordDecision("like")}
             >
               {remaining > 0 ? `Like for ${selectedSlot.toUpperCase()}` : "Limit reached"}
@@ -331,7 +332,7 @@ function SwipeContent() {
 
 export default function SwipePage() {
   return (
-    <Suspense fallback={<p className="text-neutral-400">Loading swipe page…</p>}>
+    <Suspense fallback={<div className="h-56 rounded-2xl bg-white/40 backdrop-blur-sm animate-pulse shadow-sm" />}>
       <SwipeContent />
     </Suspense>
   );

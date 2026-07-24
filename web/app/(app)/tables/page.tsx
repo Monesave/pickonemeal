@@ -125,17 +125,17 @@ export default function TablesPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <header className="space-y-1">
-        <h1 className="text-2xl font-semibold">Dining Tables</h1>
-        <p className="text-sm text-neutral-300">
+    <div className="space-y-7">
+      <header className="space-y-1.5">
+        <h1 className="text-3xl font-bold text-slate-800">Dining Tables</h1>
+        <p className="text-sm text-slate-400 font-medium">
           See tables you&apos;ve created or joined and start group meal votes.
         </p>
       </header>
 
-      <section className="space-y-3 rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
-        <h2 className="text-sm font-semibold text-neutral-100">Create table</h2>
-        <p className="text-xs text-neutral-400">
+      <section className="space-y-3.5 rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 p-5 shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
+        <h2 className="text-sm font-bold text-slate-700">Create table</h2>
+        <p className="text-xs text-slate-400 font-medium">
           As a Dining Table owner (subscriber), you can create a table and share
           an invite link with your family or friends.
         </p>
@@ -149,19 +149,19 @@ export default function TablesPage() {
             placeholder="e.g. Friday Family Dinner"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="rounded border border-neutral-700 bg-neutral-950 px-3 py-2 text-neutral-50 outline-none focus:border-neutral-300"
+            className="rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2.5 text-slate-800 placeholder-slate-300 outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100 transition-all duration-200"
           />
           <input
             type="date"
             required
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="rounded border border-neutral-700 bg-neutral-950 px-3 py-2 text-neutral-50 outline-none focus:border-neutral-300"
+            className="rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2.5 text-slate-800 outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100 transition-all duration-200"
           />
           <select
             value={mealSlot}
             onChange={(e) => setMealSlot(e.target.value as MealSlot)}
-            className="rounded border border-neutral-700 bg-neutral-950 px-3 py-2 text-neutral-50 outline-none focus:border-neutral-300 capitalize"
+            className="rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2.5 text-slate-800 outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100 capitalize transition-all duration-200"
           >
             {MEAL_SLOTS.map((slot) => (
               <option key={slot} value={slot}>
@@ -172,60 +172,67 @@ export default function TablesPage() {
           <button
             type="submit"
             disabled={creating}
-            className="rounded bg-emerald-600 px-4 py-2 text-xs font-medium text-white hover:bg-emerald-500 disabled:opacity-60"
+            className="rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition-all duration-200 hover:shadow-md hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97]"
           >
             {creating ? "Creating..." : "Create table"}
           </button>
         </form>
         {createError && (
-          <p className="text-xs text-red-400" role="alert">
+          <p className="text-xs text-red-500 font-medium" role="alert">
             {createError}
           </p>
         )}
-        <p className="text-[11px] text-neutral-500">
+        <p className="text-[11px] text-slate-400">
           Creating tables requires an active creator subscription; this is
           enforced by the backend.
         </p>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="text-sm font-semibold text-neutral-100">
+      <section className="space-y-3.5">
+        <h2 className="text-sm font-bold text-slate-700">
           Your tables
         </h2>
         {error && (
-          <p className="text-xs text-red-400" role="alert">
+          <p className="text-xs text-red-500 font-medium" role="alert">
             {error}
           </p>
         )}
         {loading ? (
-          <p className="text-neutral-400">Loading tables…</p>
+          <div className="space-y-2.5">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-16 rounded-xl bg-white/40 backdrop-blur-sm animate-pulse shadow-sm" />
+            ))}
+          </div>
         ) : tables.length === 0 ? (
-          <p className="text-sm text-neutral-400">
-            You haven&apos;t joined or created any Dining Tables yet.
-          </p>
+          <div className="rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 p-8 text-center shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
+            <div className="mx-auto mb-2 h-12 w-12 rounded-full bg-gradient-to-br from-slate-100 to-purple-50 flex items-center justify-center text-lg">🍽️</div>
+            <p className="text-sm text-slate-400 font-medium">
+              You haven&apos;t joined or created any Dining Tables yet.
+            </p>
+          </div>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {tables.map((table) => (
               <div
                 key={table.id}
-                className="flex items-center justify-between rounded-lg border border-neutral-800 bg-neutral-900/50 px-3 py-2 text-sm"
+                className="flex items-center justify-between rounded-xl bg-white/60 backdrop-blur-xl border border-white/50 px-4 py-3 text-sm shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:-translate-y-px"
               >
                 <div>
-                  <div className="font-medium text-neutral-100">
+                  <div className="font-semibold text-slate-800">
                     {table.name}
                     {table.is_owner && (
-                      <span className="ml-2 rounded-full bg-emerald-500/10 px-2 py-[1px] text-[10px] font-semibold uppercase tracking-wide text-emerald-300">
+                      <span className="ml-2 rounded-full bg-pink-50 border border-pink-200 px-2 py-[1px] text-[10px] font-bold uppercase tracking-wide text-rose-500">
                         Owner
                       </span>
                     )}
                   </div>
-                  <div className="text-xs text-neutral-400">
-                    {table.date} • <span className="capitalize">{table.meal_slot}</span> • {table.status}
+                  <div className="text-xs text-slate-400 font-medium">
+                    {table.date} • <span className="capitalize">{table.meal_slot}</span> • <span className="capitalize">{table.status.replace("_", " ")}</span>
                   </div>
                 </div>
                 <Link
                   href={`/tables/${table.id}`}
-                  className="rounded border border-neutral-700 px-2 py-1 text-xs text-neutral-200 hover:border-neutral-400"
+                  className="rounded-xl border border-slate-200 bg-white/80 px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm transition-all duration-200 hover:border-slate-300 hover:bg-white hover:text-slate-800 hover:shadow-md"
                 >
                   Open
                 </Link>
