@@ -131,7 +131,7 @@ export default function TableDetailPage() {
           id: r.id,
           round_number: r.round_number,
           status: r.status,
-          decided_meal_title: r.meals?.title ?? null,
+          decided_meal_title: Array.isArray(r.meals) ? r.meals[0]?.title ?? null : (r.meals as any)?.title ?? null,
           decision_reason: r.decision_reason
         }))
       );
@@ -185,50 +185,56 @@ export default function TableDetailPage() {
   };
 
   if (loading) {
-    return <p className="text-neutral-400">Loading table…</p>;
+    return (
+      <div className="space-y-4">
+        <div className="h-12 w-64 rounded-xl bg-white/40 backdrop-blur-sm animate-pulse" />
+        <div className="h-32 rounded-2xl bg-white/40 backdrop-blur-sm animate-pulse shadow-sm" />
+        <div className="h-40 rounded-2xl bg-white/40 backdrop-blur-sm animate-pulse shadow-sm" />
+      </div>
+    );
   }
 
   if (!table) {
     return (
-      <p className="text-sm text-red-400" role="alert">
+      <p className="text-sm text-red-500 font-medium" role="alert">
         {error ?? "Table not found."}
       </p>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <header className="space-y-1">
-        <h1 className="text-2xl font-semibold">{table.name}</h1>
-        <p className="text-sm text-neutral-300">
-          {table.date} • {table.meal_slot} • {table.status}
+    <div className="space-y-7">
+      <header className="space-y-1.5">
+        <h1 className="text-3xl font-bold text-slate-800">{table.name}</h1>
+        <p className="text-sm text-slate-400 font-medium">
+          {table.date} • <span className="capitalize">{table.meal_slot}</span> • <span className="capitalize">{table.status.replace("_", " ")}</span>
         </p>
         {yearPoints != null && (
-          <p className="text-xs text-neutral-400">
+          <p className="text-xs text-slate-400 font-medium">
             This year:{" "}
-            <span className="font-semibold">{yearPoints}</span> points
+            <span className="font-bold text-slate-700">{yearPoints}</span> points
           </p>
         )}
         {isOwner && (
-          <p className="text-xs text-emerald-300">You are the table owner.</p>
+          <p className="inline-flex items-center gap-1 text-xs font-semibold text-rose-500">👑 You are the table owner.</p>
         )}
       </header>
 
       {inviteUrl && (
-        <section className="space-y-2 rounded-lg border border-neutral-800 bg-neutral-900/60 p-4">
-          <h2 className="text-sm font-semibold text-neutral-100">
+        <section className="space-y-2.5 rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 p-5 shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
+          <h2 className="text-sm font-bold text-slate-700">
             Invite link
           </h2>
-          <p className="text-xs text-neutral-400">
+          <p className="text-xs text-slate-400 font-medium">
             Share this link so others can join this Dining Table.
           </p>
           <div className="flex items-center gap-2 text-xs">
-            <div className="flex-1 truncate rounded border border-neutral-700 bg-neutral-950 px-2 py-1 text-neutral-300">
+            <div className="flex-1 truncate rounded-xl border border-slate-200 bg-white/80 px-3 py-2 text-slate-500 font-medium">
               {inviteUrl}
             </div>
             <button
               type="button"
-              className="rounded border border-neutral-600 px-2 py-1 text-[11px] font-medium text-neutral-100 hover:border-neutral-300"
+              className="rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 px-3.5 py-2 text-[11px] font-bold text-white shadow-sm transition-all duration-200 hover:shadow-md hover:brightness-110 active:scale-[0.97]"
               onClick={() => {
                 if (navigator?.clipboard) {
                   void navigator.clipboard.writeText(inviteUrl);
@@ -242,15 +248,15 @@ export default function TableDetailPage() {
       )}
 
       {error && (
-        <p className="text-xs text-red-400" role="alert">
+        <p className="text-xs text-red-500 font-medium" role="alert">
           {error}
         </p>
       )}
 
-      <section className="space-y-2 rounded-lg border border-neutral-800 bg-neutral-900/60 p-4">
-        <h2 className="text-sm font-semibold text-neutral-100">Participants</h2>
+      <section className="space-y-2.5 rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 p-5 shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
+        <h2 className="text-sm font-bold text-slate-700">Participants</h2>
         {participants.length === 0 ? (
-          <p className="text-xs text-neutral-400">
+          <p className="text-xs text-slate-400 font-medium">
             No participants yet. Share the invite link to invite others.
           </p>
         ) : (
@@ -258,11 +264,11 @@ export default function TableDetailPage() {
             {participants.map((p) => (
               <span
                 key={p.id}
-                className="rounded-full border border-neutral-700 px-3 py-1 text-neutral-200"
+                className="rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-slate-600 font-medium shadow-sm"
               >
                 {p.display_name ?? "Anonymous"}
                 {p.is_owner && (
-                  <span className="ml-1 text-[10px] uppercase text-emerald-300">
+                  <span className="ml-1 text-[10px] uppercase font-bold text-rose-500">
                     owner
                   </span>
                 )}
@@ -272,13 +278,13 @@ export default function TableDetailPage() {
         )}
       </section>
 
-      <section className="space-y-3 rounded-lg border border-neutral-800 bg-neutral-900/60 p-4">
+      <section className="space-y-3.5 rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 p-5 shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-sm font-semibold text-neutral-100">
+            <h2 className="text-sm font-bold text-slate-700">
               Voting rounds
             </h2>
-            <p className="text-xs text-neutral-400">
+            <p className="text-xs text-slate-400 font-medium">
               New rounds run for 1 hour and will eventually pick a winner by
               consensus or timeout.
             </p>
@@ -288,36 +294,39 @@ export default function TableDetailPage() {
               type="button"
               disabled={startingRound}
               onClick={() => void handleStartRound()}
-              className="rounded bg-neutral-100 px-3 py-2 text-xs font-medium text-neutral-900 hover:bg-white disabled:opacity-60"
+              className="rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition-all duration-200 hover:shadow-md hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97]"
             >
               {startingRound ? "Starting…" : "Start new round"}
             </button>
           )}
         </div>
         {rounds.length === 0 ? (
-          <p className="text-xs text-neutral-400">
-            No rounds yet. Start one to begin voting.
-          </p>
+          <div className="py-4 text-center">
+            <div className="mx-auto mb-2 h-12 w-12 rounded-full bg-gradient-to-br from-slate-100 to-purple-50 flex items-center justify-center text-lg">🗳️</div>
+            <p className="text-xs text-slate-400 font-medium">
+              No rounds yet. Start one to begin voting.
+            </p>
+          </div>
         ) : (
-          <div className="space-y-2 text-sm">
+          <div className="space-y-2.5 text-sm">
             {rounds.map((r) => (
               <div
                 key={r.id}
-                className="flex items-center justify-between rounded border border-neutral-800 bg-neutral-950/60 px-3 py-2"
+                className="flex items-center justify-between rounded-xl bg-white/70 border border-white/50 px-4 py-3 shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:-translate-y-px"
               >
                 <div>
-                  <div className="font-medium text-neutral-100">
-                    Round {r.round_number} • {r.status}
+                  <div className="font-semibold text-slate-800">
+                    Round {r.round_number} • <span className="capitalize">{r.status}</span>
                   </div>
-                  <div className="text-xs text-neutral-400">
+                  <div className="text-xs text-slate-400 font-medium">
                     {r.decided_meal_title
-                      ? `Winner: ${r.decided_meal_title} (${r.decision_reason ?? "consensus"})`
+                      ? `🏆 Winner: ${r.decided_meal_title} (${r.decision_reason ?? "consensus"})`
                       : "No winner yet"}
                   </div>
                 </div>
                 <Link
-                  href={`/app/tables/${table.id}/rounds/${r.id}`}
-                  className="rounded border border-neutral-700 px-2 py-1 text-xs text-neutral-200 hover:border-neutral-400"
+                  href={`/tables/${table.id}/rounds/${r.id}`}
+                  className="rounded-xl border border-slate-200 bg-white/80 px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm transition-all duration-200 hover:border-slate-300 hover:bg-white hover:text-slate-800 hover:shadow-md"
                 >
                   Vote
                 </Link>

@@ -90,7 +90,7 @@ export default function ProfilePage() {
             </p>
             <p className="text-xs text-neutral-400">
               <a
-                href="/app/stats"
+                href="/stats"
                 className="underline decoration-neutral-500 hover:decoration-neutral-200"
               >
                 View my detailed stats
